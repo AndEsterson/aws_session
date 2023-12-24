@@ -25,6 +25,11 @@ else
     access_key=$(echo $aws_output | jq -r .Credentials.AccessKeyId)
     secret_key=$(echo $aws_output | jq -r .Credentials.SecretAccessKey)
     session_token=$(echo $aws_output | jq -r .Credentials.SessionToken)
+    
+    if [[ -z $access_key || -z $secret_key || -z $session_token ]]; then
+        >&2 echo 'assume-role failed'
+        exit 1
+    fi
 
     # Export values as environment variables
     export AWS_ACCESS_KEY_ID=$access_key
