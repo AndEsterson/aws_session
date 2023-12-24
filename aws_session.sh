@@ -5,6 +5,11 @@ role_arn="<role-arn>"
 profile="default"
 serial_number="<serial_number>"
 
+if [ -z "$PS1" ] ; then
+    >&2 echo "This script must be sourced"
+    exit
+fi
+
 if [[ $1 = "exit" ]]; then
     unset AWS_ACCESS_KEY_ID
     unset AWS_SECRET_ACCESS_KEY
