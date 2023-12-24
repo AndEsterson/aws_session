@@ -7,7 +7,7 @@ serial_number="<serial_number>"
 
 if [ -z "$PS1" ] ; then
     >&2 echo "This script must be sourced"
-    exit
+    exit 1
 fi
 
 if [[ $1 = "exit" ]]; then
