@@ -41,7 +41,9 @@ else
             export AWS_SECRET_ACCESS_KEY=$secret_key
             export AWS_SESSION_TOKEN=$session_token
             if [[ -n "$session_color" ]]; then
-                export PS1_PRE_AWS_SESSION=$PS1
+                if [[ -z "PS1_PRE_AWS_SESSION" ]]; then
+                    export PS1_PRE_AWS_SESSION=$PS1
+                fi
                 export PS1="%{$fg[$session_color]%}%n%{$reset_color%}@%{$fg[$session_color]%}%m %{$fg[$session_color]%}%~ %{$reset_color%}%% "
             fi
     fi
