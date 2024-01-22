@@ -13,6 +13,7 @@ if [[ $1 = "exit" ]]; then
     if [[ -n "PS1_PRE_AWS_SESSION" ]]; then
         export PS1=$PS1_PRE_AWS_SESSION
     fi
+    unset PS1_PRE_AWS_SESSION
 else
     if [[ -z "$1" ]]; then
         profile="default"
