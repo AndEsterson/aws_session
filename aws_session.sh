@@ -10,9 +10,8 @@ if [[ $1 = "exit" ]]; then
     unset AWS_ACCESS_KEY_ID
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
-    if [[ -n "PROMPT_PRE_AWS_SESSION" ]]; then
-      export PROMPT=${PROMPT/\($AWS_MFA_PROFILE\)}
-    fi
+    unset AWS_MFA_PROFILE
+    unset AWS_SESSION_COLOR
     unset PROMPT_PRE_AWS_SESSION
 else
     if [[ -z "$1" ]]; then
@@ -23,7 +22,7 @@ else
     role_arn="$(aws configure get $AWS_MFA_PROFILE.role_arn)"
     source_profile="$(aws configure get $AWS_MFA_PROFILE.source_profile)"
     serial_number="$(aws configure get $AWS_MFA_PROFILE.mfa_serial)"
-    session_color="$(aws configure get $AWS_MFA_PROFILE.session_color)"
+    AWS_SESSION_COLOR="$(aws configure get $AWS_MFA_PROFILE.AWS_SESSION_COLOR)"
     if [[ -z $role_arn || -z $source_profile || -z $serial_number ]]; then
         >&2 echo 'the profile for the role being assumed must have a role_arn, source_profile, serial number'
     else
@@ -41,11 +40,5 @@ else
             export AWS_ACCESS_KEY_ID=$access_key
             export AWS_SECRET_ACCESS_KEY=$secret_key
             export AWS_SESSION_TOKEN=$session_token
-            if [[ -n "$session_color" ]]; then
-                if [[ -z "PROMPT_PRE_AWS_SESSION" ]]; then
-                    export PROMPT_PRE_AWS_SESSION=$PROMPT
-                fi
-                export PROMPT="%{$fg[$session_color]%}($AWS_MFA_PROFILE) %{$reset_color%}$PROMPT"
-            fi
     fi
 fi
