@@ -5,6 +5,6 @@ Helpful for Terraform/Opentofu, where handling mfa/assumed roles can be a pain.
 
 You can `source ./aws_session.sh <profile>` to enter and then `source ./aws_session.sh exit` to exit, the idea is that you'll probably alias `source /some/path/aws_session.sh` to make your life easier (I use `alias awss=source /some/path/aws_session.sh`). 
 
-The profile argument corresponds to a profile in your aws credentials file, it must specify the role_arn, source_profile and mfa_serial (but probably doesn't need anything else). If no argument is supplied, it will attempt to assume the default profile (i.e `call aws configure get` without a profile specified).
+The profile argument corresponds to the profile of an mfa enabled assumed role in your aws credentials file. If no argument is supplied, `aws_session.sh` will attempt to assume the default profile.
 
-You can optionally specify a `session_color` in your aws credentials file, e.g `session_color = yellow` this will be used to update `$PS1` until you exit the session, helping to track which profile is in use (you probably want to avoid this if you are doing anything fancy with shell prompts e.g [starship](https://github.com/starship/starship)).
+You can optionally specify a `session_color` in your aws credentials file, e.g `session_color = yellow` this doesn't do anything itself because I don't want to mess up your `$PS1` or `$PROMPT` but both `$AWS_SESSION_COLOR` and `AWS_MFA_PROFILE` are defined are script executes, which can be used down the line (e.g I define my `$PROMPT` to include them if present)
