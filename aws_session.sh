@@ -22,7 +22,7 @@ _() {
       local role_arn="$(aws configure get $mfa_profile.role_arn)"
       local source_profile="$(aws configure get $mfa_profile.source_profile)"
       local serial_number="$(aws configure get $mfa_profile.mfa_serial)"
-      local session_color="$(aws configure get $mfa_profile.AWS_SESSION_COLOR)"
+      local session_color="$(aws configure get $mfa_profile.session_color)"
       if [[ -z $role_arn || -z $source_profile || -z $serial_number ]]; then
           >&2 echo 'the profile for the role being assumed must have a role_arn, source_profile, serial number'
       else
@@ -37,9 +37,6 @@ _() {
       if [[ -z $access_key || -z $secret_key || -z $session_token ]]; then
           >&2 echo 'assume-role failed'
       else
-              echo $session_token
-              echo $mfa_profile
-              export SOME_RANDOM_VAR=$access_key
               export AWS_SESSION_COLOR=$session_color
               export AWS_MFA_PROFILE=$mfa_profile
               export AWS_ACCESS_KEY_ID=$access_key
