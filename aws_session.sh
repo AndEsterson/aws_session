@@ -29,7 +29,7 @@ _() {
           echo -n "mfa token: "
           read token
           local aws_output=$(aws sts assume-role --role-arn $role_arn --role-session-name "session-role" --profile $source_profile --serial-number $serial_number --token-code $token)
-
+          local expiration_datetime=$(echo $aws_output | jq -r .Credentials.Expiration)
           local access_key=$(echo $aws_output | jq -r .Credentials.AccessKeyId)
           local secret_key=$(echo $aws_output | jq -r .Credentials.SecretAccessKey)
           local session_token=$(echo $aws_output | jq -r .Credentials.SessionToken)
@@ -42,6 +42,7 @@ _() {
               export AWS_ACCESS_KEY_ID=$access_key
               export AWS_SECRET_ACCESS_KEY=$secret_key
               export AWS_SESSION_TOKEN=$session_token
+              export AWS_SESSION_EXPIRY=$(date -d $expiration_datetime +%s)
       fi
   fi
 }
