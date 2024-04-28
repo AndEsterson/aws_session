@@ -12,6 +12,7 @@ _() {
       unset AWS_SESSION_TOKEN
       unset AWS_MFA_PROFILE
       unset AWS_SESSION_COLOR
+      unset AWS_SESSION_EXPIRY
       unset PROMPT_PRE_AWS_SESSION
   else
       if [[ -z "$1" ]]; then
